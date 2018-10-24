@@ -10,5 +10,10 @@ setup(
     install_requires=[
         'kubernetes',
     ],
-    url="https://github.com/stas-kabam/kaml-remote"
+    url="https://github.com/stas-kabam/kaml-remote",
+    entry_points={
+        'console_scripts': [
+            'kaml-remote=kaml_remote:main',
+        ],
+    },
 )
