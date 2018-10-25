@@ -116,16 +116,16 @@ def set_affinity(size):
     return(affinity)
 
 def run_job(api_instance, job, size, docker_image, docker_image_tag):
-  # run job
-  api_response = api_instance.create_namespaced_job(
-    namespace="default",
-    body=job)
-  print("-----")
-  print("Kaml docker image: {}. Set environment variable \"KAML_IMAGE\" to override it.".format(docker_image))
-  print("Kaml docker tag: {}. Set environment variable \"KAML_IMAGE_TAG\" to override it.".format(docker_image_tag))
-  print("Kaml docker image: {}. Set environment variable \"INSTANCE_SIZE\" to override.".format(size))
-  print("-----")
-  print("Job Created: => {}".format(str(api_response.metadata.name)))
+    # run job
+    api_response = api_instance.create_namespaced_job(
+        namespace="default",
+        body=job)
+    print("-----")
+    print("Kaml docker image: {}. Set environment variable \"KAML_IMAGE\" to override it.".format(docker_image))
+    print("Kaml docker tag: {}. Set environment variable \"KAML_IMAGE_TAG\" to override it.".format(docker_image_tag))
+    print("Kaml docker image: {}. Set environment variable \"INSTANCE_SIZE\" to override.".format(size))
+    print("-----")
+    print("Job Created: => {}".format(str(api_response.metadata.name)))
 
 def get_parser():
 
@@ -154,22 +154,22 @@ def get_parser():
 
 def main():
 
-  logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-  warnings.filterwarnings('ignore', 'Your application has authenticated using end user credentials')
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
+    warnings.filterwarnings('ignore', 'Your application has authenticated using end user credentials')
 
-  # Parse arguments
-  job_arguments, size, docker_image, docker_image_tag = get_parser()
+    # Parse arguments
+    job_arguments, size, docker_image, docker_image_tag = get_parser()
 
-  # TODO Check contexts to ensure we are in the right project
-  config.load_kube_config()
-  api_instance = client.BatchV1Api()
+    # TODO Check contexts to ensure we are in the right project
+    config.load_kube_config()
+    api_instance = client.BatchV1Api()
 
-  # Set affinity
-  affinity = set_affinity(size)
+    # Set affinity
+    affinity = set_affinity(size)
 
-  job = create_job_object(job_arguments, size, docker_image, docker_image_tag, affinity)
+    job = create_job_object(job_arguments, size, docker_image, docker_image_tag, affinity)
 
-  run_job(api_instance, job, size, docker_image, docker_image_tag)
+    run_job(api_instance, job, size, docker_image, docker_image_tag)
 
 if __name__ == '__main__':
-  main()
+    main()
